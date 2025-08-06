@@ -6,9 +6,36 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
+
 class CategoryController extends Controller
 {
     // إنشاء كاتيجوري جديدة
+        /**
+     * @OA\Post(
+     *     path="/api/categories",
+     *     summary="Create a new category",
+     *     tags={"Categories"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name_en", "name_ar"},
+     *             @OA\Property(property="name_en", type="string"),
+     *             @OA\Property(property="name_ar", type="string"),
+     *             @OA\Property(property="is_active", type="integer", example=1)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Category created",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean"),
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="data", ref="#/components/schemas/Category")
+     *         )
+     *     )
+     * )
+     */
+
     public function store(Request $request)
     {
         try {
@@ -38,6 +65,33 @@ class CategoryController extends Controller
     }
 
     // تعديل كاتيجوري موجودة
+        /**
+     * @OA\Put(
+     *     path="/api/categories/{id}",
+     *     summary="Update an existing category",
+     *     tags={"Categories"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name_en", "name_ar"},
+     *             @OA\Property(property="name_en", type="string"),
+     *             @OA\Property(property="name_ar", type="string"),
+     *             @OA\Property(property="is_active", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Category updated"
+     *     )
+     * )
+     */
+
     public function update(Request $request, Category $category)
     {
         try {
@@ -67,6 +121,36 @@ class CategoryController extends Controller
     }
 
     // جلب كل الكاتيجوري الفعالة
+        /**
+     * @OA\Get(
+     *     path="/api/categories",
+     *     summary="Get all categories",
+     *     tags={"Categories"},
+     *     @OA\Parameter(
+     *         name="lang",
+     *         in="query",
+     *         description="Language (en or ar)",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of categories",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean"),
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="integer"),
+     *                     @OA\Property(property="name", type="string"),
+     *                     @OA\Property(property="is_active", type="boolean")
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
+     */
+
     public function index(Request $request)
 {
     try {
@@ -100,6 +184,24 @@ class CategoryController extends Controller
 
 
     // تفعيل أو تعطيل كاتيجوري
+        /**
+     * @OA\Patch(
+     *     path="/api/categories/{id}/toggle",
+     *     summary="Toggle category active status",
+     *     tags={"Categories"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Status toggled"
+     *     )
+     * )
+     */
+
     public function toggleActive(Category $category)
     {
         try {
@@ -125,6 +227,28 @@ class CategoryController extends Controller
     }
 
     // عرض كاتيجوري واحدة
+        /**
+     * @OA\Get(
+     *     path="/api/categories/{id}",
+     *     summary="Get category by ID",
+     *     tags={"Categories"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Category details"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Category not found"
+     *     )
+     * )
+     */
+
     public function show($id)
     {
         try {

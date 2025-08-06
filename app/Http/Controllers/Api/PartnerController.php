@@ -12,6 +12,39 @@ use Intervention\Image\Laravel\Facades\Image;
 
 class PartnerController extends Controller
 {
+    /**
+ * @OA\Post(
+ *     path="/api/partners",
+ *     summary="Create a new partner",
+ *     tags={"Partners"},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 required={"name_en", "name_ar", "image", "category_id", "en_alt_image", "ar_alt_image"},
+ *                 @OA\Property(property="name_en", type="string", example="Partner EN"),
+ *                 @OA\Property(property="name_ar", type="string", example="شريك"),
+ *                 @OA\Property(property="image", type="file"),
+ *                 @OA\Property(property="category_id", type="integer", example=1),
+ *                 @OA\Property(property="en_alt_image", type="string", example="English Alt"),
+ *                 @OA\Property(property="ar_alt_image", type="string", example="بديل الصورة"),
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Partner created successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean", example=true),
+ *             @OA\Property(property="message", type="string", example="Partner created successfully"),
+ *             @OA\Property(property="data", type="object")
+ *         )
+ *     ),
+ *     @OA\Response(response=422, description="Validation error"),
+ *     @OA\Response(response=500, description="Internal server error")
+ * )
+ */
     public function store(Request $request)
     {
         try {
@@ -62,6 +95,29 @@ class PartnerController extends Controller
             ], 500);
         }
     }
+/**
+ * @OA\Get(
+ *     path="/api/partners/category/{categoryId}",
+ *     summary="Get all partners by category",
+ *     tags={"Partners"},
+ *     @OA\Parameter(
+ *         name="categoryId",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of partners",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean", example=true),
+ *             @OA\Property(property="data", type="array", @OA\Items(type="object"))
+ *         )
+ *     ),
+ *     @OA\Response(response=500, description="Server error")
+ * )
+ */
+
 
     public function getAllByCategory($categoryId)
     {
@@ -93,6 +149,29 @@ class PartnerController extends Controller
             ], 500);
         }
     }
+
+    /**
+ * @OA\Get(
+ *     path="/api/partners/category/{categoryId}/active",
+ *     summary="Get all active partners by category",
+ *     tags={"Partners"},
+ *     @OA\Parameter(
+ *         name="categoryId",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of active partners",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean", example=true),
+ *             @OA\Property(property="data", type="array", @OA\Items(type="object"))
+ *         )
+ *     ),
+ *     @OA\Response(response=500, description="Server error")
+ * )
+ */
 
     public function getActiveByCategory($categoryId, Request $request)
     {
@@ -134,6 +213,29 @@ class PartnerController extends Controller
             ], 500);
         }
     }
+    /**
+ * @OA\Post(
+ *     path="/api/partners/{id}/toggle",
+ *     summary="Toggle partner active status",
+ *     tags={"Partners"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID of the partner",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Partner active status toggled",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean", example=true),
+ *             @OA\Property(property="message", type="string", example="Partner active status updated successfully")
+ *         )
+ *     ),
+ *     @OA\Response(response=404, description="Partner not found")
+ * )
+ */
 
     public function toggleActive(Partner $partner)
     {
@@ -154,6 +256,46 @@ class PartnerController extends Controller
             ], 500);
         }
     }
+
+    /**
+ * @OA\Put(
+ *     path="/api/partners/{id}",
+ *     summary="Update an existing partner",
+ *     tags={"Partners"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         description="ID of the partner",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 @OA\Property(property="name_en", type="string", example="Updated Partner EN"),
+ *                 @OA\Property(property="name_ar", type="string", example="شريك محدّث"),
+ *                 @OA\Property(property="image", type="file"),
+ *                 @OA\Property(property="category_id", type="integer", example=1),
+ *                 @OA\Property(property="en_alt_image", type="string", example="Updated English Alt"),
+ *                 @OA\Property(property="ar_alt_image", type="string", example="بديل الصورة المحدّث")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Partner updated successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean", example=true),
+ *             @OA\Property(property="message", type="string", example="Partner updated successfully"),
+ *             @OA\Property(property="data", type="object")
+ *         )
+ *     ),
+ *     @OA\Response(response=404, description="Partner not found"),
+ *     @OA\Response(response=422, description="Validation error")
+ * )
+ */
 
     public function update(Request $request, Partner $partner)
     {

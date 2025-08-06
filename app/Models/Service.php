@@ -21,6 +21,10 @@ class Service extends Model
         'is_active',
     ];
 
+protected $casts = [
+    'is_active' => 'integer',
+];
+
     protected static function booted()
     {
         static::creating(function ($service) {

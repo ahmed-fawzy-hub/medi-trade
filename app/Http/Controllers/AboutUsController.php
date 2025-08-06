@@ -16,6 +16,34 @@ class AboutUsController extends Controller
     /**
      * دالة لعرض بيانات AboutUs فقط (Dashboard)
      */
+    /**
+ * @OA\Get(
+ *     path="/api/about-us/public",
+ *     operationId="getAboutUsWithServices",
+ *     tags={"About Us"},
+ *     summary="عرض معلومات عن الشركة والخدمات والبنر",
+ *     description="ترجع بيانات About Us والخدمات المفعّلة + البنر الخاص بصفحة about",
+ *     @OA\Response(
+ *         response=200,
+ *         description="تم جلب البيانات بنجاح",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean", example=true),
+ *             @OA\Property(property="data", type="object",
+ *                 @OA\Property(property="about", type="object"),
+ *                 @OA\Property(property="services", type="array", @OA\Items(type="object")),
+ *                 @OA\Property(property="banner", type="object",
+ *                     @OA\Property(property="image_url", type="string", example="http://localhost/uploads/banners/example.webp")
+ *                 )
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="فشل في جلب البيانات"
+ *     )
+ * )
+ */
+
     public function show()
     {
         try {
@@ -65,6 +93,52 @@ class AboutUsController extends Controller
     /**
      * تعديل بيانات AboutUs
      */
+    /**
+ * @OA\Post(
+ *     path="/api/about-us",
+ *     operationId="updateAboutUs",
+ *     tags={"About Us"},
+ *     summary="تحديث بيانات About Us",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 @OA\Property(property="title_en", type="string", example="About Us Title (EN)"),
+ *                 @OA\Property(property="title_ar", type="string", example="عنوان من نحن"),
+ *                 @OA\Property(property="home_description_en", type="string"),
+ *                 @OA\Property(property="home_description_ar", type="string"),
+ *                 @OA\Property(property="about_description_en", type="string"),
+ *                 @OA\Property(property="about_description_ar", type="string"),
+ *                 @OA\Property(property="image", type="file", format="binary"),
+ *                 @OA\Property(property="en_alt_image", type="string"),
+ *                 @OA\Property(property="ar_alt_image", type="string"),
+ *                 @OA\Property(property="mission_en", type="string"),
+ *                 @OA\Property(property="mission_ar", type="string"),
+ *                 @OA\Property(property="vision_en", type="string"),
+ *                 @OA\Property(property="vision_ar", type="string"),
+ *                 @OA\Property(property="investments_en", type="string"),
+ *                 @OA\Property(property="investments_ar", type="string"),
+ *                 @OA\Property(property="why_medi_trade_en", type="string"),
+ *                 @OA\Property(property="why_medi_trade_ar", type="string"),
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="تم التحديث بنجاح"
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="أخطاء في التحقق من صحة البيانات"
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="فشل في تحديث البيانات"
+ *     )
+ * )
+ */
+
     public function update(Request $request)
 {
     try {

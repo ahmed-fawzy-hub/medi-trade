@@ -12,6 +12,27 @@ use Throwable;
 
 class MediaController extends Controller
 {
+    /**
+ * @OA\Get(
+ *     path="/api/media",
+ *     summary="List all active media and blog banner",
+ *     tags={"Media"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful response",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="string"),
+ *             @OA\Property(property="message", type="string"),
+ *             @OA\Property(
+ *                 property="data",
+ *                 type="object",
+ *                 @OA\Property(property="media", type="array", @OA\Items(type="object")),
+ *                 @OA\Property(property="banner", type="object")
+ *             )
+ *         )
+ *     )
+ * )
+ */
     public function index()
 {
     try {
@@ -67,6 +88,34 @@ class MediaController extends Controller
             return $this->errorResponse($e, 'Failed to load dashboard media');
         }
     }
+    /**
+ * @OA\Post(
+ *     path="/api/media",
+ *     summary="Upload a new media file",
+ *     tags={"Media"},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 required={"type", "file_path"},
+ *                 @OA\Property(property="type", type="string", enum={"image", "video"}),
+ *                 @OA\Property(property="file_path", type="string", format="binary"),
+ *                 @OA\Property(property="video_url", type="string", format="url"),
+ *                 @OA\Property(property="alt_text", type="string")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="Media created successfully"
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Validation error"
+ *     )
+ * )
+ */
 
     public function store(Request $request)
     {
@@ -118,6 +167,29 @@ class MediaController extends Controller
         }
     }
 
+    /**
+ * @OA\Get(
+ *     path="/api/media/{id}",
+ *     summary="Show single media file",
+ *     tags={"Media"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Media retrieved successfully"
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Media not found"
+ *     )
+ * )
+ */
+
+
     public function show($id)
     {
         try {
@@ -132,6 +204,38 @@ class MediaController extends Controller
             return $this->errorResponse($e, 'Failed to find media');
         }
     }
+    /**
+ * @OA\Put(
+ *     path="/api/media/{id}",
+ *     summary="Update media file",
+ *     tags={"Media"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\RequestBody(
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 @OA\Property(property="type", type="string", enum={"image", "video"}),
+ *                 @OA\Property(property="file_path", type="string", format="binary"),
+ *                 @OA\Property(property="video_url", type="string", format="url"),
+ *                 @OA\Property(property="alt_text", type="string")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Media updated successfully"
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Media not found"
+ *     )
+ * )
+ */
 
     public function update(Request $request, $id)
     {
@@ -183,7 +287,23 @@ class MediaController extends Controller
             return $this->errorResponse($e, 'Failed to update media');
         }
     }
-
+/**
+ * @OA\Patch(
+ *     path="/api/media/{id}/toggle-visibility",
+ *     summary="Toggle media visibility",
+ *     tags={"Media"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Visibility toggled successfully"
+ *     )
+ * )
+ */
     public function toggleVisibility($id)
     {
         try {
@@ -200,20 +320,72 @@ class MediaController extends Controller
         }
     }
 
+    /**
+ * @OA\Get(
+ *     path="/api/media/images",
+ *     summary="Get only images",
+ *     tags={"Media"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of image media"
+ *     )
+ * )
+ */
+
     public function imagesOnly()
     {
         return $this->fetchByType('image', 'All active images fetched successfully');
     }
+
+    /**
+ * @OA\Get(
+ *     path="/api/media/videos",
+ *     summary="Get only videos",
+ *     tags={"Media"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of video media"
+ *     )
+ * )
+ */
 
     public function videosOnly()
     {
         return $this->fetchByType('video', 'All active videos fetched successfully');
     }
 
+    /**
+ * @OA\Get(
+ *     path="/api/media/public/images",
+ *     summary="Get all public images",
+ *     description="Retrieve all public media files of type image.",
+ *     tags={"Media"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of public images",
+ *         @OA\JsonContent(type="array", @OA\Items(type="object"))
+ *     )
+ * )
+ */
+
     public function publicImages()
     {
         return $this->fetchByType('image', 'Public images loaded');
     }
+
+    /**
+ * @OA\Get(
+ *     path="/api/media/public/videos",
+ *     summary="Get all public videos",
+ *     description="Retrieve all public media files of type video.",
+ *     tags={"Media"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of public videos",
+ *         @OA\JsonContent(type="array", @OA\Items(type="object"))
+ *     )
+ * )
+ */
 
     public function publicVideos()
     {

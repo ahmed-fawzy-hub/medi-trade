@@ -14,6 +14,34 @@ class BannerController extends Controller
     /**
      * عرض بيانات Banner حسب الصفحة
      */
+    /**
+ * @OA\Get(
+ *     path="/api/banners/{page}",
+ *     summary="Get banner by page",
+ *     tags={"Banners"},
+ *     @OA\Parameter(
+ *         name="page",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="string")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Banner found",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean"),
+ *             @OA\Property(property="data", type="object",
+ *                 @OA\Property(property="image_url", type="string")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Banner not found"
+ *     )
+ * )
+ */
+
     public function show($page)
     {
         try {
@@ -40,6 +68,30 @@ class BannerController extends Controller
             ], 500);
         }
     }
+    /**
+ * @OA\Get(
+ *     path="/api/banners",
+ *     summary="Get all banners",
+ *     tags={"Banners"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of banners",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean"),
+ *             @OA\Property(
+ *                 property="data",
+ *                 type="array",
+ *                 @OA\Items(
+ *                     @OA\Property(property="id", type="integer"),
+ *                     @OA\Property(property="page", type="string"),
+ *                     @OA\Property(property="image_url", type="string"),
+ *                 )
+ *             )
+ *         )
+ *     )
+ * )
+ */
+
 public function index()
 {
     try {
@@ -62,6 +114,37 @@ public function index()
         ], 500);
     }
 }
+/**
+ * @OA\Post(
+ *     path="/api/banners",
+ *     summary="Create new banner",
+ *     tags={"Banners"},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 required={"page", "image"},
+ *                 @OA\Property(property="page", type="string"),
+ *                 @OA\Property(property="image", type="string", format="binary")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="Banner created successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean"),
+ *             @OA\Property(property="message", type="string"),
+ *             @OA\Property(property="data", type="object")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Validation failed"
+ *     )
+ * )
+ */
 
     public function store(Request $request)
 {
@@ -114,6 +197,37 @@ public function index()
     /**
      * تحديث بيانات Banner حسب الصفحة
      */
+    /**
+ * @OA\Put(
+ *     path="/api/banners/{page}",
+ *     summary="Update banner by page",
+ *     tags={"Banners"},
+ *     @OA\Parameter(
+ *         name="page",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="string")
+ *     ),
+ *     @OA\RequestBody(
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 @OA\Property(property="page", type="string"),
+ *                 @OA\Property(property="image", type="string", format="binary")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Banner updated successfully"
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Banner not found"
+ *     )
+ * )
+ */
+
     public function update(Request $request, $page)
     {
         try {

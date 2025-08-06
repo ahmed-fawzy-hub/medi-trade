@@ -1,0 +1,3723 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "MediTrade API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/about-us/public": {
+            "get": {
+                "tags": [
+                    "About Us"
+                ],
+                "summary": "عرض معلومات عن الشركة والخدمات والبنر",
+                "description": "ترجع بيانات About Us والخدمات المفعّلة + البنر الخاص بصفحة about",
+                "operationId": "getAboutUsWithServices",
+                "responses": {
+                    "200": {
+                        "description": "تم جلب البيانات بنجاح",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "about": {
+                                                    "type": "object"
+                                                },
+                                                "services": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "banner": {
+                                                    "properties": {
+                                                        "image_url": {
+                                                            "type": "string",
+                                                            "example": "http://localhost/uploads/banners/example.webp"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "فشل في جلب البيانات"
+                    }
+                }
+            }
+        },
+        "/api/about-us": {
+            "post": {
+                "tags": [
+                    "About Us"
+                ],
+                "summary": "تحديث بيانات About Us",
+                "operationId": "updateAboutUs",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "title_en": {
+                                        "type": "string",
+                                        "example": "About Us Title (EN)"
+                                    },
+                                    "title_ar": {
+                                        "type": "string",
+                                        "example": "عنوان من نحن"
+                                    },
+                                    "home_description_en": {
+                                        "type": "string"
+                                    },
+                                    "home_description_ar": {
+                                        "type": "string"
+                                    },
+                                    "about_description_en": {
+                                        "type": "string"
+                                    },
+                                    "about_description_ar": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "file",
+                                        "format": "binary"
+                                    },
+                                    "en_alt_image": {
+                                        "type": "string"
+                                    },
+                                    "ar_alt_image": {
+                                        "type": "string"
+                                    },
+                                    "mission_en": {
+                                        "type": "string"
+                                    },
+                                    "mission_ar": {
+                                        "type": "string"
+                                    },
+                                    "vision_en": {
+                                        "type": "string"
+                                    },
+                                    "vision_ar": {
+                                        "type": "string"
+                                    },
+                                    "investments_en": {
+                                        "type": "string"
+                                    },
+                                    "investments_ar": {
+                                        "type": "string"
+                                    },
+                                    "why_medi_trade_en": {
+                                        "type": "string"
+                                    },
+                                    "why_medi_trade_ar": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "تم التحديث بنجاح"
+                    },
+                    "422": {
+                        "description": "أخطاء في التحقق من صحة البيانات"
+                    },
+                    "500": {
+                        "description": "فشل في تحديث البيانات"
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Register a new user",
+                "operationId": "8e4e3cb7b46126f4696379d3c7eeb4ad",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login a user",
+                "operationId": "222b2625838e3c57e017987f73598fda",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful"
+                    },
+                    "401": {
+                        "description": "Invalid email or password"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout user",
+                "operationId": "ad65cbbd4e9f201619eae184a5961a98",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/me": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Get authenticated user",
+                "operationId": "8367feff40ba10e43187792cad3132c1",
+                "responses": {
+                    "200": {
+                        "description": "Authenticated user data"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get all categories",
+                "operationId": "ac9c4d978ea4e5b72915ca9728e5b8b1",
+                "parameters": [
+                    {
+                        "name": "lang",
+                        "in": "query",
+                        "description": "Language (en or ar)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "is_active": {
+                                                        "type": "boolean"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Create a new category",
+                "operationId": "cca49a87d9b0ebb9a98ad7c154b71737",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name_en",
+                                    "name_ar"
+                                ],
+                                "properties": {
+                                    "name_en": {
+                                        "type": "string"
+                                    },
+                                    "name_ar": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Category created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Category"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get category by ID",
+                "operationId": "09767bb2e47dde77dd1e2591428b0ae1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category details"
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Update an existing category",
+                "operationId": "7dcf71887e585de7f881e9eb98d86126",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name_en",
+                                    "name_ar"
+                                ],
+                                "properties": {
+                                    "name_en": {
+                                        "type": "string"
+                                    },
+                                    "name_ar": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Category updated"
+                    }
+                }
+            }
+        },
+        "/api/categories/{id}/toggle": {
+            "patch": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Toggle category active status",
+                "operationId": "f09c6e940bf66c4a409aec336903f534",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Status toggled"
+                    }
+                }
+            }
+        },
+        "/api/partners": {
+            "post": {
+                "tags": [
+                    "Partners"
+                ],
+                "summary": "Create a new partner",
+                "operationId": "5293864478b10524135c685a56da962f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name_en",
+                                    "name_ar",
+                                    "image",
+                                    "category_id",
+                                    "en_alt_image",
+                                    "ar_alt_image"
+                                ],
+                                "properties": {
+                                    "name_en": {
+                                        "type": "string",
+                                        "example": "Partner EN"
+                                    },
+                                    "name_ar": {
+                                        "type": "string",
+                                        "example": "شريك"
+                                    },
+                                    "image": {
+                                        "type": "file"
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "en_alt_image": {
+                                        "type": "string",
+                                        "example": "English Alt"
+                                    },
+                                    "ar_alt_image": {
+                                        "type": "string",
+                                        "example": "بديل الصورة"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Partner created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Partner created successfully"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/partners/category/{categoryId}": {
+            "get": {
+                "tags": [
+                    "Partners"
+                ],
+                "summary": "Get all partners by category",
+                "operationId": "520500d61472753383eb29035e2d9ae2",
+                "parameters": [
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of partners",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/partners/category/{categoryId}/active": {
+            "get": {
+                "tags": [
+                    "Partners"
+                ],
+                "summary": "Get all active partners by category",
+                "operationId": "ae45876f4ca0ad4cb3ccc3fa9ea9b5f4",
+                "parameters": [
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of active partners",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/partners/{id}/toggle": {
+            "post": {
+                "tags": [
+                    "Partners"
+                ],
+                "summary": "Toggle partner active status",
+                "operationId": "e8bf2cb21ff85b548d34fae30a73e36c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the partner",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Partner active status toggled",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Partner active status updated successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Partner not found"
+                    }
+                }
+            }
+        },
+        "/api/partners/{id}": {
+            "put": {
+                "tags": [
+                    "Partners"
+                ],
+                "summary": "Update an existing partner",
+                "operationId": "464be37d6cf02cbf96433db20232d52c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the partner",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "name_en": {
+                                        "type": "string",
+                                        "example": "Updated Partner EN"
+                                    },
+                                    "name_ar": {
+                                        "type": "string",
+                                        "example": "شريك محدّث"
+                                    },
+                                    "image": {
+                                        "type": "file"
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "en_alt_image": {
+                                        "type": "string",
+                                        "example": "Updated English Alt"
+                                    },
+                                    "ar_alt_image": {
+                                        "type": "string",
+                                        "example": "بديل الصورة المحدّث"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Partner updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Partner updated successfully"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Partner not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/banners/{page}": {
+            "get": {
+                "tags": [
+                    "Banners"
+                ],
+                "summary": "Get banner by page",
+                "operationId": "9f95068fb8cff6ee1fc37f471bec6f6f",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Banner found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "image_url": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Banner not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Banners"
+                ],
+                "summary": "Update banner by page",
+                "operationId": "750a8c61bdcb517e280eb0dd014c6e9b",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "page": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Banner updated successfully"
+                    },
+                    "404": {
+                        "description": "Banner not found"
+                    }
+                }
+            }
+        },
+        "/api/banners": {
+            "get": {
+                "tags": [
+                    "Banners"
+                ],
+                "summary": "Get all banners",
+                "operationId": "ef6e2a0694446d424bc4d5fa2458f5b1",
+                "responses": {
+                    "200": {
+                        "description": "List of banners",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "page": {
+                                                        "type": "string"
+                                                    },
+                                                    "image_url": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Banners"
+                ],
+                "summary": "Create new banner",
+                "operationId": "25593be4d8cb447471ad011740d24c3f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "page",
+                                    "image"
+                                ],
+                                "properties": {
+                                    "page": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Banner created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    }
+                }
+            }
+        },
+        "/api/blogs": {
+            "get": {
+                "tags": [
+                    "Blogs"
+                ],
+                "summary": "عرض كل المدونات",
+                "operationId": "9819e5802278e060898795fe3c919599",
+                "responses": {
+                    "200": {
+                        "description": "قائمة بكل المدونات"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Blogs"
+                ],
+                "summary": "إنشاء تدوينة جديدة",
+                "operationId": "514d226035b3d74b6ccf9837b3d1ed36",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "title_en",
+                                    "title_ar",
+                                    "short_description_en",
+                                    "external_image",
+                                    "internal_image",
+                                    "header_image"
+                                ],
+                                "properties": {
+                                    "title_en": {
+                                        "type": "string"
+                                    },
+                                    "title_ar": {
+                                        "type": "string"
+                                    },
+                                    "short_description_en": {
+                                        "type": "string"
+                                    },
+                                    "short_description_ar": {
+                                        "type": "string"
+                                    },
+                                    "full_description_en": {
+                                        "type": "string"
+                                    },
+                                    "full_description_ar": {
+                                        "type": "string"
+                                    },
+                                    "en_meta_title": {
+                                        "type": "string"
+                                    },
+                                    "en_meta_description": {
+                                        "type": "string"
+                                    },
+                                    "ar_meta_title": {
+                                        "type": "string"
+                                    },
+                                    "ar_meta_description": {
+                                        "type": "string"
+                                    },
+                                    "external_image": {
+                                        "type": "file",
+                                        "format": "binary"
+                                    },
+                                    "internal_image": {
+                                        "type": "file",
+                                        "format": "binary"
+                                    },
+                                    "header_image": {
+                                        "type": "file",
+                                        "format": "binary"
+                                    },
+                                    "external_image_alt_en": {
+                                        "type": "string"
+                                    },
+                                    "external_image_alt_ar": {
+                                        "type": "string"
+                                    },
+                                    "internal_image_alt_en": {
+                                        "type": "string"
+                                    },
+                                    "internal_image_alt_ar": {
+                                        "type": "string"
+                                    },
+                                    "header_image_alt_en": {
+                                        "type": "string"
+                                    },
+                                    "header_image_alt_ar": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "تم إنشاء التدوينة"
+                    }
+                }
+            }
+        },
+        "/api/available-blogs": {
+            "get": {
+                "tags": [
+                    "Blogs"
+                ],
+                "summary": "جلب المدونات النشطة فقط",
+                "operationId": "8641a0e5c45cee3fe67ac13970fc4c25",
+                "responses": {
+                    "200": {
+                        "description": "قائمة المدونات النشطة"
+                    }
+                }
+            }
+        },
+        "/api/blogs/{id}": {
+            "get": {
+                "tags": [
+                    "Blogs"
+                ],
+                "summary": "عرض تدوينة حسب ID",
+                "operationId": "d5626a75caa63a57c4215c796839b85a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "رقم التدوينة",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "بيانات التدوينة"
+                    },
+                    "404": {
+                        "description": "التدوينة غير موجودة"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Blogs"
+                ],
+                "summary": "تحديث تدوينة",
+                "operationId": "2c3597f68790e0d30412c6cf92864869",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "رقم التدوينة",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "title_en": {
+                                        "type": "string"
+                                    },
+                                    "title_ar": {
+                                        "type": "string"
+                                    },
+                                    "short_description_en": {
+                                        "type": "string"
+                                    },
+                                    "short_description_ar": {
+                                        "type": "string"
+                                    },
+                                    "full_description_en": {
+                                        "type": "string"
+                                    },
+                                    "full_description_ar": {
+                                        "type": "string"
+                                    },
+                                    "en_meta_title": {
+                                        "type": "string"
+                                    },
+                                    "en_meta_description": {
+                                        "type": "string"
+                                    },
+                                    "ar_meta_title": {
+                                        "type": "string"
+                                    },
+                                    "ar_meta_description": {
+                                        "type": "string"
+                                    },
+                                    "external_image": {
+                                        "type": "file",
+                                        "format": "binary"
+                                    },
+                                    "internal_image": {
+                                        "type": "file",
+                                        "format": "binary"
+                                    },
+                                    "header_image": {
+                                        "type": "file",
+                                        "format": "binary"
+                                    },
+                                    "external_image_alt_en": {
+                                        "type": "string"
+                                    },
+                                    "external_image_alt_ar": {
+                                        "type": "string"
+                                    },
+                                    "internal_image_alt_en": {
+                                        "type": "string"
+                                    },
+                                    "internal_image_alt_ar": {
+                                        "type": "string"
+                                    },
+                                    "header_image_alt_en": {
+                                        "type": "string"
+                                    },
+                                    "header_image_alt_ar": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "تم التحديث بنجاح"
+                    },
+                    "404": {
+                        "description": "التدوينة غير موجودة"
+                    }
+                }
+            }
+        },
+        "/api/blogs/{id}/toggle-status": {
+            "patch": {
+                "tags": [
+                    "Blogs"
+                ],
+                "summary": "تبديل حالة التدوينة (تفعيل / تعطيل)",
+                "operationId": "3ece78723a882423dc3d37a9b23d9658",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "رقم التدوينة",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "تم تحديث الحالة بنجاح",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Status updated"
+                                        },
+                                        "is_active": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "التدوينة غير موجودة",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Blog not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "خطأ داخلي في الخادم",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Something went wrong"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Exception message here..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contacts": {
+            "get": {
+                "tags": [
+                    "Contacts"
+                ],
+                "summary": "عرض كل الرسائل",
+                "operationId": "0f9efb5609dbb039b35ecafb28e492a2",
+                "responses": {
+                    "200": {
+                        "description": "تم جلب الرسائل بنجاح",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Messages fetched successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "فشل جلب الرسائل",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed to fetch messages"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "DB error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Contacts"
+                ],
+                "summary": "إرسال رسالة تواصل",
+                "operationId": "a3b0baf957a16c1ed505f2e8985c254c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "message"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "أحمد"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "ahmed@example.com"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "0123456789"
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "أرغب في التواصل بشأن الخدمة"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "تم إرسال الرسالة بنجاح",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Message sent successfully"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "فشل إرسال الرسالة",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed to send message"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Validation or DB error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contacts/{id}": {
+            "get": {
+                "tags": [
+                    "Contacts"
+                ],
+                "summary": "عرض رسالة واحدة",
+                "operationId": "4b37f4c90f5cd7974a09bd688ac4d3dd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "معرّف الرسالة",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "تم جلب الرسالة بنجاح",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Message fetched successfully"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "الرسالة غير موجودة",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Message not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "فشل جلب الرسالة",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed to fetch message"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "DB error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contacts/{id}/seen": {
+            "patch": {
+                "tags": [
+                    "Contacts"
+                ],
+                "summary": "تحديث حالة المشاهدة",
+                "operationId": "5e5f0a6c2f777d9c4d631eceb0d67267",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "معرّف الرسالة",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "تم تحديث حالة المشاهدة",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Message marked as seen successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "is_seen": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "الرسالة غير موجودة",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Message not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "فشل التحديث",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed to mark message as seen"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "DB error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contact-info": {
+            "get": {
+                "tags": [
+                    "Contact Info"
+                ],
+                "summary": "Get contact information",
+                "operationId": "f0c096b20db1d482c57148e5be84f6e8",
+                "responses": {
+                    "200": {
+                        "description": "Contact information retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Contact information retrieved successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "phone_one": {
+                                                    "type": "string",
+                                                    "example": "0123456789"
+                                                },
+                                                "phone_two": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "whatsapp": {
+                                                    "type": "string",
+                                                    "example": "0123456789"
+                                                },
+                                                "address": {
+                                                    "type": "string",
+                                                    "example": "Cairo, Egypt"
+                                                },
+                                                "map_link": {
+                                                    "type": "string",
+                                                    "example": "https://maps.google.com/..."
+                                                },
+                                                "facebook": {
+                                                    "type": "string",
+                                                    "example": "https://facebook.com/example"
+                                                },
+                                                "instagram": {
+                                                    "type": "string",
+                                                    "example": "https://instagram.com/example"
+                                                },
+                                                "twitter": {
+                                                    "type": "string",
+                                                    "example": "https://twitter.com/example"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Contact Info"
+                ],
+                "summary": "Update or create contact information",
+                "operationId": "35620fe6a96744bca2a50c1f3b8f2a86",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "phone_one",
+                                    "whatsapp",
+                                    "address"
+                                ],
+                                "properties": {
+                                    "phone_one": {
+                                        "type": "string",
+                                        "example": "0123456789"
+                                    },
+                                    "phone_two": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "whatsapp": {
+                                        "type": "string",
+                                        "example": "0123456789"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "123 Street, City"
+                                    },
+                                    "map_link": {
+                                        "type": "string",
+                                        "example": "https://maps.google.com/..."
+                                    },
+                                    "working_hours": {
+                                        "type": "string",
+                                        "example": "Mon-Fri 9am-5pm"
+                                    },
+                                    "facebook": {
+                                        "type": "string",
+                                        "example": "https://facebook.com/example"
+                                    },
+                                    "instagram": {
+                                        "type": "string",
+                                        "example": "https://instagram.com/example"
+                                    },
+                                    "twitter": {
+                                        "type": "string",
+                                        "example": "https://twitter.com/example"
+                                    },
+                                    "snapchat": {
+                                        "type": "string",
+                                        "example": "https://snapchat.com/example"
+                                    },
+                                    "youtube": {
+                                        "type": "string",
+                                        "example": "https://youtube.com/example"
+                                    },
+                                    "tiktok": {
+                                        "type": "string",
+                                        "example": "https://tiktok.com/@example"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contact information saved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Contact information saved successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "phone_one": {
+                                                    "type": "string",
+                                                    "example": "0123456789"
+                                                },
+                                                "address": {
+                                                    "type": "string",
+                                                    "example": "Cairo, Egypt"
+                                                },
+                                                "facebook": {
+                                                    "type": "string",
+                                                    "example": "https://facebook.com/example"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed to save contact information"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Exception message here"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/home": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "Get homepage data",
+                "operationId": "4ae2920c0ae23bcd363a60da81a1d4ef",
+                "responses": {
+                    "200": {
+                        "description": "Homepage data retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Homepage data retrieved successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "about_us": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "title": {
+                                                            "type": "string",
+                                                            "example": "About Our Company"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "We are a leading company..."
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "example": "2024-08-01T12:00:00Z"
+                                                        }
+                                                    },
+                                                    "type": "object",
+                                                    "nullable": true
+                                                },
+                                                "services": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "Web Development"
+                                                            },
+                                                            "is_active": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "media": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "Video 1"
+                                                            },
+                                                            "url": {
+                                                                "type": "string",
+                                                                "example": "https://example.com/media/video.mp4"
+                                                            },
+                                                            "is_active": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "sliders": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "image": {
+                                                                "type": "string",
+                                                                "example": "https://example.com/slider.jpg"
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "Welcome to Our Site"
+                                                            },
+                                                            "is_active": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "categories": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Technology"
+                                                            },
+                                                            "is_active": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            },
+                                                            "partners": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "name": {
+                                                                            "type": "string",
+                                                                            "example": "Partner 1"
+                                                                        },
+                                                                        "is_active": {
+                                                                            "type": "boolean",
+                                                                            "example": true
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to load homepage data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed to load homepage data"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Exception message here"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/media": {
+            "get": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "List all active media and blog banner",
+                "operationId": "bb530491f2016ed20ade75ea5b28329b",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "media": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "banner": {
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Upload a new media file",
+                "operationId": "eeaf63768829900435c84f27180703fb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "file_path"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "image",
+                                            "video"
+                                        ]
+                                    },
+                                    "file_path": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "video_url": {
+                                        "type": "string",
+                                        "format": "url"
+                                    },
+                                    "alt_text": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Media created successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/media/{id}": {
+            "get": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Show single media file",
+                "operationId": "eddcbeb0a30c2ed9f7976b92953256d6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Media retrieved successfully"
+                    },
+                    "404": {
+                        "description": "Media not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Update media file",
+                "operationId": "02f96dfeb5bf268c27c65774846f18d2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "image",
+                                            "video"
+                                        ]
+                                    },
+                                    "file_path": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "video_url": {
+                                        "type": "string",
+                                        "format": "url"
+                                    },
+                                    "alt_text": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Media updated successfully"
+                    },
+                    "404": {
+                        "description": "Media not found"
+                    }
+                }
+            }
+        },
+        "/api/media/{id}/toggle-visibility": {
+            "patch": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Toggle media visibility",
+                "operationId": "b0902dcf550d25f1e89a8bd0aeb21ebd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Visibility toggled successfully"
+                    }
+                }
+            }
+        },
+        "/api/media/images": {
+            "get": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Get only images",
+                "operationId": "d9fb9e8b9e39a8ef98a06919caea62cb",
+                "responses": {
+                    "200": {
+                        "description": "List of image media"
+                    }
+                }
+            }
+        },
+        "/api/media/videos": {
+            "get": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Get only videos",
+                "operationId": "0e3c2ea77b53aee91ce1a9f75ec3052b",
+                "responses": {
+                    "200": {
+                        "description": "List of video media"
+                    }
+                }
+            }
+        },
+        "/api/media/public/images": {
+            "get": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Get all public images",
+                "description": "Retrieve all public media files of type image.",
+                "operationId": "f27344b8314b6c194d2cd6c013ba2a09",
+                "responses": {
+                    "200": {
+                        "description": "List of public images",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/media/public/videos": {
+            "get": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Get all public videos",
+                "description": "Retrieve all public media files of type video.",
+                "operationId": "425e615c405952350d5040147d544d6e",
+                "responses": {
+                    "200": {
+                        "description": "List of public videos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/privacy-policy": {
+            "get": {
+                "tags": [
+                    "Privacy Policy"
+                ],
+                "summary": "Get the privacy policy",
+                "description": "Retrieve the current privacy policy (English and Arabic).",
+                "operationId": "1a9e96782d9d42c3550e662ace397732",
+                "responses": {
+                    "200": {
+                        "description": "Privacy policy fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Privacy Policy fetched successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "en_title": {
+                                                    "type": "string",
+                                                    "example": "Privacy Policy"
+                                                },
+                                                "en_description": {
+                                                    "type": "string",
+                                                    "example": "This is the English privacy policy."
+                                                },
+                                                "ar_title": {
+                                                    "type": "string",
+                                                    "example": "سياسة الخصوصية"
+                                                },
+                                                "ar_description": {
+                                                    "type": "string",
+                                                    "example": "هذه هي سياسة الخصوصية باللغة العربية."
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Privacy Policy"
+                ],
+                "summary": "Create or update the privacy policy",
+                "description": "Update or create a new privacy policy with English and Arabic content.",
+                "operationId": "190a8bc1e011a57b19d20fbe2546437e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "en_title",
+                                    "en_description",
+                                    "ar_title",
+                                    "ar_description"
+                                ],
+                                "properties": {
+                                    "en_title": {
+                                        "type": "string",
+                                        "example": "Privacy Policy"
+                                    },
+                                    "en_description": {
+                                        "type": "string",
+                                        "example": "English description here"
+                                    },
+                                    "ar_title": {
+                                        "type": "string",
+                                        "example": "سياسة الخصوصية"
+                                    },
+                                    "ar_description": {
+                                        "type": "string",
+                                        "example": "الوصف العربي هنا"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Privacy policy saved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Privacy Policy saved successfully"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Validation failed"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Something went wrong"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/seo-tags": {
+            "get": {
+                "tags": [
+                    "SEO Tags"
+                ],
+                "summary": "Get all SEO tags",
+                "operationId": "e6315770dc13deb9b79f74847d8b7358",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SeoTag"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "SEO Tags"
+                ],
+                "summary": "Create a new SEO tag",
+                "operationId": "e15114cdc9562e7e76c9cad278612fc9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "en_meta_title",
+                                    "en_meta_description",
+                                    "ar_meta_title",
+                                    "ar_meta_description",
+                                    "page_name"
+                                ],
+                                "properties": {
+                                    "en_meta_title": {
+                                        "type": "string"
+                                    },
+                                    "en_meta_description": {
+                                        "type": "string"
+                                    },
+                                    "ar_meta_title": {
+                                        "type": "string"
+                                    },
+                                    "ar_meta_description": {
+                                        "type": "string"
+                                    },
+                                    "page_name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/SeoTag"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/seo-tags/{id}": {
+            "get": {
+                "tags": [
+                    "SEO Tags"
+                ],
+                "summary": "Get a specific SEO tag",
+                "operationId": "8b68da8f20295a540cd52eb02ccedaf5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "SEO Tag ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SeoTag"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "SEO Tags"
+                ],
+                "summary": "Update a SEO tag",
+                "operationId": "8f8c914267510e549265fb3ef0d47211",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "SEO Tag ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "en_meta_title",
+                                    "en_meta_description",
+                                    "ar_meta_title",
+                                    "ar_meta_description",
+                                    "page_name"
+                                ],
+                                "properties": {
+                                    "en_meta_title": {
+                                        "type": "string"
+                                    },
+                                    "en_meta_description": {
+                                        "type": "string"
+                                    },
+                                    "ar_meta_title": {
+                                        "type": "string"
+                                    },
+                                    "ar_meta_description": {
+                                        "type": "string"
+                                    },
+                                    "page_name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/SeoTag"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/public/services": {
+            "get": {
+                "tags": [
+                    "Public Services"
+                ],
+                "summary": "عرض خدمات الموقع للعامة",
+                "description": "يعرض فقط الخدمات المفعّلة (is_active = true)",
+                "operationId": "getPublicServices",
+                "responses": {
+                    "200": {
+                        "description": "قائمة الخدمات العامة",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Service"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/services": {
+            "get": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "عرض كل الخدمات",
+                "description": "يعرض قائمة بجميع الخدمات",
+                "operationId": "getServices",
+                "responses": {
+                    "200": {
+                        "description": "قائمة الخدمات",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Service"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "خطأ داخلي"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "إنشاء خدمة جديدة",
+                "description": "ينشئ خدمة جديدة ببيانات كاملة وصور",
+                "operationId": "storeService",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "title_en",
+                                    "title_ar",
+                                    "short_description_en",
+                                    "short_description_ar",
+                                    "full_description_en",
+                                    "full_description_ar",
+                                    "main_image",
+                                    "header_image",
+                                    "supplies_image",
+                                    "main_image_alt_en",
+                                    "main_image_alt_ar",
+                                    "header_image_alt_en",
+                                    "header_image_alt_ar",
+                                    "supplies_image_alt_en",
+                                    "supplies_image_alt_ar",
+                                    "supplies_text_en",
+                                    "supplies_text_ar"
+                                ],
+                                "properties": {
+                                    "title_en": {
+                                        "type": "string"
+                                    },
+                                    "title_ar": {
+                                        "type": "string"
+                                    },
+                                    "short_description_en": {
+                                        "type": "string"
+                                    },
+                                    "short_description_ar": {
+                                        "type": "string"
+                                    },
+                                    "full_description_en": {
+                                        "type": "string"
+                                    },
+                                    "full_description_ar": {
+                                        "type": "string"
+                                    },
+                                    "meta_title": {
+                                        "type": "string"
+                                    },
+                                    "meta_description": {
+                                        "type": "string"
+                                    },
+                                    "main_image": {
+                                        "type": "file",
+                                        "format": "binary"
+                                    },
+                                    "header_image": {
+                                        "type": "file",
+                                        "format": "binary"
+                                    },
+                                    "supplies_image": {
+                                        "type": "file",
+                                        "format": "binary"
+                                    },
+                                    "main_image_alt_en": {
+                                        "type": "string"
+                                    },
+                                    "main_image_alt_ar": {
+                                        "type": "string"
+                                    },
+                                    "header_image_alt_en": {
+                                        "type": "string"
+                                    },
+                                    "header_image_alt_ar": {
+                                        "type": "string"
+                                    },
+                                    "supplies_image_alt_en": {
+                                        "type": "string"
+                                    },
+                                    "supplies_image_alt_ar": {
+                                        "type": "string"
+                                    },
+                                    "supplies_text_en": {
+                                        "type": "string"
+                                    },
+                                    "supplies_text_ar": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "integer",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ],
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "تم إنشاء الخدمة",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Service created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Service"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "أخطاء التحقق من الصحة"
+                    }
+                }
+            }
+        },
+        "/api/services/{id}": {
+            "get": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "عرض خدمة حسب ID",
+                "description": "يعرض خدمة واحدة باستخدام رقم تعريفها",
+                "operationId": "getServiceById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "رقم تعريف الخدمة",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "بيانات الخدمة",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Service"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "لم يتم العثور على الخدمة"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "تحديث خدمة",
+                "description": "تحديث بيانات خدمة موجودة باستخدام ID",
+                "operationId": "updateService",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "رقم تعريف الخدمة",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "title_en": {
+                                        "type": "string"
+                                    },
+                                    "title_ar": {
+                                        "type": "string"
+                                    },
+                                    "short_description_en": {
+                                        "type": "string"
+                                    },
+                                    "short_description_ar": {
+                                        "type": "string"
+                                    },
+                                    "full_description_en": {
+                                        "type": "string"
+                                    },
+                                    "full_description_ar": {
+                                        "type": "string"
+                                    },
+                                    "meta_title": {
+                                        "type": "string"
+                                    },
+                                    "meta_description": {
+                                        "type": "string"
+                                    },
+                                    "main_image": {
+                                        "type": "file",
+                                        "format": "binary"
+                                    },
+                                    "header_image": {
+                                        "type": "file",
+                                        "format": "binary"
+                                    },
+                                    "supplies_image": {
+                                        "type": "file",
+                                        "format": "binary"
+                                    },
+                                    "main_image_alt_en": {
+                                        "type": "string"
+                                    },
+                                    "main_image_alt_ar": {
+                                        "type": "string"
+                                    },
+                                    "header_image_alt_en": {
+                                        "type": "string"
+                                    },
+                                    "header_image_alt_ar": {
+                                        "type": "string"
+                                    },
+                                    "supplies_image_alt_en": {
+                                        "type": "string"
+                                    },
+                                    "supplies_image_alt_ar": {
+                                        "type": "string"
+                                    },
+                                    "supplies_text_en": {
+                                        "type": "string"
+                                    },
+                                    "supplies_text_ar": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "integer",
+                                        "enum": [
+                                            0,
+                                            1
+                                        ],
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "تم تحديث الخدمة",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Service updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Service"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "لم يتم العثور على الخدمة"
+                    }
+                }
+            }
+        },
+        "/api/services/toggle-active/{id}": {
+            "post": {
+                "tags": [
+                    "Services"
+                ],
+                "summary": "تفعيل/إلغاء تفعيل خدمة",
+                "description": "يبدل حالة الخدمة بين مفعّلة وغير مفعّلة",
+                "operationId": "toggleServiceActive",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "رقم تعريف الخدمة",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "تم تغيير حالة الخدمة",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Service activation toggled"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Service"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "لم يتم العثور على الخدمة"
+                    }
+                }
+            }
+        },
+        "/api/sliders": {
+            "get": {
+                "tags": [
+                    "Sliders"
+                ],
+                "summary": "Get all sliders",
+                "operationId": "f3f821bb23189c1aa1f07dcc34fbd7b3",
+                "responses": {
+                    "200": {
+                        "description": "List of sliders",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Slider"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Sliders"
+                ],
+                "summary": "Create a new slider",
+                "operationId": "40e04352099ba3630b0ecd3d8a07ff4a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "title_en",
+                                    "title_ar",
+                                    "description_en",
+                                    "description_ar",
+                                    "video"
+                                ],
+                                "properties": {
+                                    "title_en": {
+                                        "type": "string"
+                                    },
+                                    "title_ar": {
+                                        "type": "string"
+                                    },
+                                    "description_en": {
+                                        "type": "string"
+                                    },
+                                    "description_ar": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "file"
+                                    },
+                                    "video": {
+                                        "type": "file"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Slider created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Slider"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/sliders/{id}": {
+            "put": {
+                "tags": [
+                    "Sliders"
+                ],
+                "summary": "Update an existing slider",
+                "operationId": "69287588ebbfccfab3ba79f95438e0df",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Slider ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "title_en": {
+                                        "type": "string",
+                                        "example": "Updated Title EN"
+                                    },
+                                    "title_ar": {
+                                        "type": "string",
+                                        "example": "Updated Title AR"
+                                    },
+                                    "description_en": {
+                                        "type": "string",
+                                        "example": "Updated Description EN"
+                                    },
+                                    "description_ar": {
+                                        "type": "string",
+                                        "example": "Updated Description AR"
+                                    },
+                                    "image": {
+                                        "description": "Image file (jpeg, png, webp)",
+                                        "type": "file"
+                                    },
+                                    "video": {
+                                        "description": "Video file (mp4, mov, avi, webm)",
+                                        "type": "file"
+                                    },
+                                    "en_image_alt": {
+                                        "type": "string",
+                                        "example": "English alt for image"
+                                    },
+                                    "ar_image_alt": {
+                                        "type": "string",
+                                        "example": "Arabic alt for image"
+                                    },
+                                    "en_video_alt": {
+                                        "type": "string",
+                                        "example": "English alt for video"
+                                    },
+                                    "ar_video_alt": {
+                                        "type": "string",
+                                        "example": "Arabic alt for video"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Slider updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Slider updated successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Slider"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error or missing image/video",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You must upload either an image or a video"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Slider not found"
+                    }
+                }
+            }
+        },
+        "/api/sliders/{id}/toggle-status": {
+            "patch": {
+                "tags": [
+                    "Sliders"
+                ],
+                "summary": "Toggle the active status of a slider",
+                "operationId": "1e8bcf3b799308c8a905232aa295a1fc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Slider ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Slider status updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Slider status updated"
+                                        },
+                                        "is_active": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Slider not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "SeoTag": {
+                "title": "SeoTag",
+                "required": [
+                    "en_meta_title",
+                    "en_meta_description",
+                    "ar_meta_title",
+                    "ar_meta_description",
+                    "page_name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "en_meta_title": {
+                        "type": "string",
+                        "example": "Welcome to MediTrade"
+                    },
+                    "en_meta_description": {
+                        "type": "string",
+                        "example": "This is the English meta description."
+                    },
+                    "ar_meta_title": {
+                        "type": "string",
+                        "example": "مرحباً بكم في ميدي تريد"
+                    },
+                    "ar_meta_description": {
+                        "type": "string",
+                        "example": "هذا هو الوصف العربي."
+                    },
+                    "page_name": {
+                        "type": "string",
+                        "example": "homepage"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-06T12:34:56Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-06T12:34:56Z"
+                    }
+                },
+                "type": "object"
+            },
+            "Service": {
+                "title": "Service",
+                "required": [
+                    "id",
+                    "title_en",
+                    "title_ar"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "example": "Service Title EN"
+                    },
+                    "title_ar": {
+                        "type": "string",
+                        "example": "عنوان الخدمة"
+                    },
+                    "short_description_en": {
+                        "type": "string"
+                    },
+                    "short_description_ar": {
+                        "type": "string"
+                    },
+                    "full_description_en": {
+                        "type": "string"
+                    },
+                    "full_description_ar": {
+                        "type": "string"
+                    },
+                    "meta_title": {
+                        "type": "string"
+                    },
+                    "meta_description": {
+                        "type": "string"
+                    },
+                    "slug_en": {
+                        "type": "string"
+                    },
+                    "slug_ar": {
+                        "type": "string"
+                    },
+                    "main_image": {
+                        "type": "string"
+                    },
+                    "header_image": {
+                        "type": "string"
+                    },
+                    "supplies_image": {
+                        "type": "string"
+                    },
+                    "is_active": {
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Slider": {
+                "title": "Slider",
+                "required": [
+                    "title_en",
+                    "title_ar",
+                    "description_en",
+                    "description_ar"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title_en": {
+                        "type": "string",
+                        "example": "Welcome"
+                    },
+                    "title_ar": {
+                        "type": "string",
+                        "example": "أهلاً"
+                    },
+                    "description_en": {
+                        "type": "string"
+                    },
+                    "description_ar": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "slider1.webp"
+                    },
+                    "video": {
+                        "type": "string",
+                        "example": "slider1.mp4"
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Category": {
+                "title": "Category",
+                "required": [
+                    "id",
+                    "name_en",
+                    "name_ar"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name_en": {
+                        "type": "string",
+                        "example": "Drinks"
+                    },
+                    "name_ar": {
+                        "type": "string",
+                        "example": "مشروبات"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "About Us",
+            "description": "About Us"
+        },
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
+        {
+            "name": "Categories",
+            "description": "Categories"
+        },
+        {
+            "name": "Partners",
+            "description": "Partners"
+        },
+        {
+            "name": "Banners",
+            "description": "Banners"
+        },
+        {
+            "name": "Blogs",
+            "description": "Blogs"
+        },
+        {
+            "name": "Contacts",
+            "description": "Contacts"
+        },
+        {
+            "name": "Contact Info",
+            "description": "Contact Info"
+        },
+        {
+            "name": "Home",
+            "description": "Home"
+        },
+        {
+            "name": "Media",
+            "description": "Media"
+        },
+        {
+            "name": "Privacy Policy",
+            "description": "Privacy Policy"
+        },
+        {
+            "name": "SEO Tags",
+            "description": "SEO Tags"
+        },
+        {
+            "name": "Public Services",
+            "description": "Public Services"
+        },
+        {
+            "name": "Services",
+            "description": "Services"
+        },
+        {
+            "name": "Sliders",
+            "description": "Sliders"
+        }
+    ]
+}

@@ -10,8 +10,44 @@ use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Validation\ValidationException;
 use Throwable;
 
+/**
+ * @OA\Schema(
+ *     schema="Slider",
+ *     type="object",
+ *     title="Slider",
+ *     required={"title_en", "title_ar", "description_en", "description_ar"},
+ *     @OA\Property(property="id", type="integer", example=1),
+ *     @OA\Property(property="title_en", type="string", example="Welcome"),
+ *     @OA\Property(property="title_ar", type="string", example="أهلاً"),
+ *     @OA\Property(property="description_en", type="string"),
+ *     @OA\Property(property="description_ar", type="string"),
+ *     @OA\Property(property="image", type="string", example="slider1.webp"),
+ *     @OA\Property(property="video", type="string", example="slider1.mp4"),
+ *     @OA\Property(property="is_active", type="boolean"),
+ *     @OA\Property(property="created_at", type="string", format="date-time"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time"),
+ * )
+ */
+
 class SliderController extends Controller
 {
+    /**
+ * @OA\Get(
+ *     path="/api/sliders",
+ *     summary="Get all sliders",
+ *     tags={"Sliders"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="List of sliders",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean"),
+ *             @OA\Property(property="message", type="string"),
+ *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Slider"))
+ *         )
+ *     )
+ * )
+ */
+
     public function index()
     {
         try {
@@ -25,6 +61,39 @@ class SliderController extends Controller
             return $this->handleException($e);
         }
     }
+
+    /**
+ * @OA\Post(
+ *     path="/api/sliders",
+ *     summary="Create a new slider",
+ *     tags={"Sliders"},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 required={"title_en", "title_ar", "description_en", "description_ar", "video"},
+ *                 @OA\Property(property="title_en", type="string"),
+ *                 @OA\Property(property="title_ar", type="string"),
+ *                 @OA\Property(property="description_en", type="string"),
+ *                 @OA\Property(property="description_ar", type="string"),
+ *                 @OA\Property(property="image", type="file"),
+ *                 @OA\Property(property="video", type="file"),
+ *                 @OA\Property(property="is_active", type="boolean"),
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="Slider created successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean"),
+ *             @OA\Property(property="message", type="string"),
+ *             @OA\Property(property="data", ref="#/components/schemas/Slider")
+ *         )
+ *     )
+ * )
+ */
 
     public function store(Request $request)
     {
@@ -75,6 +144,61 @@ class SliderController extends Controller
             return $this->handleException($e);
         }
     }
+
+    /**
+ * @OA\Put(
+ *     path="/api/sliders/{id}",
+ *     summary="Update an existing slider",
+ *     tags={"Sliders"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="Slider ID",
+ *         @OA\Schema(type="integer", example=1)
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 @OA\Property(property="title_en", type="string", example="Updated Title EN"),
+ *                 @OA\Property(property="title_ar", type="string", example="Updated Title AR"),
+ *                 @OA\Property(property="description_en", type="string", example="Updated Description EN"),
+ *                 @OA\Property(property="description_ar", type="string", example="Updated Description AR"),
+ *                 @OA\Property(property="image", type="file", description="Image file (jpeg, png, webp)"),
+ *                 @OA\Property(property="video", type="file", description="Video file (mp4, mov, avi, webm)"),
+ *                 @OA\Property(property="en_image_alt", type="string", example="English alt for image"),
+ *                 @OA\Property(property="ar_image_alt", type="string", example="Arabic alt for image"),
+ *                 @OA\Property(property="en_video_alt", type="string", example="English alt for video"),
+ *                 @OA\Property(property="ar_video_alt", type="string", example="Arabic alt for video"),
+ *                 @OA\Property(property="is_active", type="boolean", example=true),
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Slider updated successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(property="message", type="string", example="Slider updated successfully"),
+ *             @OA\Property(property="data", ref="#/components/schemas/Slider")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Validation error or missing image/video",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="message", type="string", example="You must upload either an image or a video")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Slider not found"
+ *     )
+ * )
+ */
 
     public function update(Request $request, $id)
     {
@@ -154,6 +278,34 @@ class SliderController extends Controller
             return $this->handleException($e);
         }
     }
+
+    /**
+ * @OA\Patch(
+ *     path="/api/sliders/{id}/toggle-status",
+ *     summary="Toggle the active status of a slider",
+ *     tags={"Sliders"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="Slider ID",
+ *         @OA\Schema(type="integer", example=1)
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Slider status updated",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(property="message", type="string", example="Slider status updated"),
+ *             @OA\Property(property="is_active", type="integer", example=1)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Slider not found"
+ *     )
+ * )
+ */
 
     public function toggleStatus($id)
     {

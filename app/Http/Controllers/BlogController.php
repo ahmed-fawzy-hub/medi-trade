@@ -11,6 +11,17 @@ use Intervention\Image\Laravel\Facades\Image;
 
 class BlogController extends Controller
 {
+    /**
+ * @OA\Get(
+ *     path="/api/blogs",
+ *     summary="عرض كل المدونات",
+ *     tags={"Blogs"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="قائمة بكل المدونات"
+ *     )
+ * )
+ */
     public function index()
 {
     try {
@@ -35,6 +46,18 @@ class BlogController extends Controller
         ], 500);
     }
 }
+/**
+ * @OA\Get(
+ *     path="/api/available-blogs",
+ *     summary="جلب المدونات النشطة فقط",
+ *     tags={"Blogs"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="قائمة المدونات النشطة"
+ *     )
+ * )
+ */
+
 
     public function availableBlogs()
 {
@@ -79,6 +102,28 @@ class BlogController extends Controller
         }
     }
 
+    /**
+ * @OA\Get(
+ *     path="/api/blogs/{id}",
+ *     summary="عرض تدوينة حسب ID",
+ *     tags={"Blogs"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         description="رقم التدوينة",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="بيانات التدوينة"
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="التدوينة غير موجودة"
+ *     )
+ * )
+ */
     public function showById($id)
     {
         try {
@@ -108,7 +153,46 @@ class BlogController extends Controller
         ], 500);
     }
     }
-
+/**
+ * @OA\Post(
+ *     path="/api/blogs",
+ *     summary="إنشاء تدوينة جديدة",
+ *     tags={"Blogs"},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 required={"title_en", "title_ar", "short_description_en", "external_image", "internal_image", "header_image"},
+ *                 @OA\Property(property="title_en", type="string"),
+ *                 @OA\Property(property="title_ar", type="string"),
+ *                 @OA\Property(property="short_description_en", type="string"),
+ *                 @OA\Property(property="short_description_ar", type="string"),
+ *                 @OA\Property(property="full_description_en", type="string"),
+ *                 @OA\Property(property="full_description_ar", type="string"),
+ *                 @OA\Property(property="en_meta_title", type="string"),
+ *                 @OA\Property(property="en_meta_description", type="string"),
+ *                 @OA\Property(property="ar_meta_title", type="string"),
+ *                 @OA\Property(property="ar_meta_description", type="string"),
+ *                 @OA\Property(property="external_image", type="file", format="binary"),
+ *                 @OA\Property(property="internal_image", type="file", format="binary"),
+ *                 @OA\Property(property="header_image", type="file", format="binary"),
+ *                 @OA\Property(property="external_image_alt_en", type="string"),
+ *                 @OA\Property(property="external_image_alt_ar", type="string"),
+ *                 @OA\Property(property="internal_image_alt_en", type="string"),
+ *                 @OA\Property(property="internal_image_alt_ar", type="string"),
+ *                 @OA\Property(property="header_image_alt_en", type="string"),
+ *                 @OA\Property(property="header_image_alt_ar", type="string"),
+ *                 @OA\Property(property="is_active", type="boolean")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="تم إنشاء التدوينة"
+ *     )
+ * )
+ */
     public function store(Request $request)
     {
         try {
@@ -188,6 +272,57 @@ $path = public_path('uploads/blogs');
     }
     }
 
+    /**
+ * @OA\Post(
+ *     path="/api/blogs/{id}",
+ *     summary="تحديث تدوينة",
+ *     tags={"Blogs"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         description="رقم التدوينة",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 @OA\Property(property="title_en", type="string"),
+ *                 @OA\Property(property="title_ar", type="string"),
+ *                 @OA\Property(property="short_description_en", type="string"),
+ *                 @OA\Property(property="short_description_ar", type="string"),
+ *                 @OA\Property(property="full_description_en", type="string"),
+ *                 @OA\Property(property="full_description_ar", type="string"),
+ *                 @OA\Property(property="en_meta_title", type="string"),
+ *                 @OA\Property(property="en_meta_description", type="string"),
+ *                 @OA\Property(property="ar_meta_title", type="string"),
+ *                 @OA\Property(property="ar_meta_description", type="string"),
+ *                 @OA\Property(property="external_image", type="file", format="binary"),
+ *                 @OA\Property(property="internal_image", type="file", format="binary"),
+ *                 @OA\Property(property="header_image", type="file", format="binary"),
+ *                 @OA\Property(property="external_image_alt_en", type="string"),
+ *                 @OA\Property(property="external_image_alt_ar", type="string"),
+ *                 @OA\Property(property="internal_image_alt_en", type="string"),
+ *                 @OA\Property(property="internal_image_alt_ar", type="string"),
+ *                 @OA\Property(property="header_image_alt_en", type="string"),
+ *                 @OA\Property(property="header_image_alt_ar", type="string"),
+ *                 @OA\Property(property="is_active", type="boolean")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="تم التحديث بنجاح"
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="التدوينة غير موجودة"
+ *     )
+ * )
+ */
+
     public function update(Request $request, $id)
     {
         try {
@@ -265,6 +400,46 @@ $validated['is_active'] = $request->has('is_active') ? ($request->boolean('is_ac
     }
     }
 
+    /**
+ * @OA\Patch(
+ *     path="/api/blogs/{id}/toggle-status",
+ *     summary="تبديل حالة التدوينة (تفعيل / تعطيل)",
+ *     tags={"Blogs"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         description="رقم التدوينة",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="تم تحديث الحالة بنجاح",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean", example=true),
+ *             @OA\Property(property="message", type="string", example="Status updated"),
+ *             @OA\Property(property="is_active", type="integer", example=1)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="التدوينة غير موجودة",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean", example=false),
+ *             @OA\Property(property="message", type="string", example="Blog not found")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="خطأ داخلي في الخادم",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean", example=false),
+ *             @OA\Property(property="message", type="string", example="Something went wrong"),
+ *             @OA\Property(property="error", type="string", example="Exception message here...")
+ *         )
+ *     )
+ * )
+ */
     public function toggleStatus($id)
 {
     try {

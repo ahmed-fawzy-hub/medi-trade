@@ -102,7 +102,6 @@ Route::prefix('partners')->group(function () {
         Route::get('/', [MediaController::class, 'index']);
         Route::post('/', [MediaController::class, 'store']);
         Route::post('/{id}/update', [MediaController::class, 'update']);
-        Route::post('/{id}/delete', [MediaController::class, 'destroy']);
         Route::post('/{id}/toggle', [MediaController::class, 'toggleVisibility']);
     });
 

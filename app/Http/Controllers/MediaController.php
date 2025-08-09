@@ -33,10 +33,104 @@ class MediaController extends Controller
  *     )
  * )
  */
-    public function index()
+   public function index()
 {
     try {
-        $media = Media::where('is_active', true)->latest()->get()->map(function ($item) {
+        // استرجاع الصور
+        $images = Media::where('is_active', true)
+            ->where('type', 'image')
+            ->latest()
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'type' => $item->type,
+                    'file_path' => $item->file_path,
+                    'file_url' => asset('uploads/media/images/' . $item->file_path),
+                    'alt_text' => $item->alt_text,
+                    'is_active' => $item->is_active,
+                    'created_at' => $item->created_at,
+                    'updated_at' => $item->updated_at,
+                ];
+            });
+
+        // استرجاع الفيديوهات
+        $videos = Media::where('is_active', true)
+            ->where('type', 'video')
+            ->latest()
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'type' => $item->type,
+                    'file_path' => $item->file_path,
+                    'file_url' => asset('uploads/media/videos/' . $item->file_path),
+                    'video_url' => $item->video_url,
+                    'alt_text' => $item->alt_text,
+                    'is_active' => $item->is_active,
+                    'created_at' => $item->created_at,
+                    'updated_at' => $item->updated_at,
+                ];
+            });
+
+        // البانر
+        $banner = Banner::where('page', 'media')->latest()->first();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Active media and blog banner loaded successfully',
+            'data' => [
+                'images' => $images,
+                'videos' => $videos,
+                'banner' => $banner,
+            ]
+        ]);
+    } catch (Throwable $e) {
+        return $this->errorResponse($e, 'Failed to load media or banner');
+    }
+}
+
+
+    /**
+ * @OA\Get(
+ *     path="/api/dashboard/media",
+ *     summary="List all media for dashboard",
+ *     description="Retrieve all media items (images and videos) for dashboard purposes.",
+ *     tags={"Media"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful response",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="string", example="success"),
+ *             @OA\Property(property="message", type="string", example="Dashboard media loaded successfully"),
+ *             @OA\Property(
+ *                 property="data",
+ *                 type="array",
+ *                 @OA\Items(
+ *                     type="object",
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="type", type="string", example="image"),
+ *                     @OA\Property(property="file_path", type="string", example="abc123.webp"),
+ *                     @OA\Property(property="file_url", type="string", example="https://example.com/uploads/media/images/abc123.webp"),
+ *                     @OA\Property(property="video_url", type="string", nullable=true, example=null),
+ *                     @OA\Property(property="alt_text", type="string", nullable=true, example="Sample image"),
+ *                     @OA\Property(property="is_active", type="boolean", example=true),
+ *                     @OA\Property(property="created_at", type="string", format="date-time", example="2025-08-08T10:15:00Z"),
+ *                     @OA\Property(property="updated_at", type="string", format="date-time", example="2025-08-08T10:15:00Z")
+ *                 )
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Server error"
+ *     )
+ * )
+ */
+public function dashboardMedia()
+{
+    try {
+        $media = Media::latest()->get()->map(function ($item) {
             $folder = $item->type === 'image' ? 'uploads/media/images' : 'uploads/media/videos';
             return [
                 'id' => $item->id,
@@ -51,43 +145,16 @@ class MediaController extends Controller
             ];
         });
 
-        $banner = Banner::where('page', 'blog')->latest()->first();
-
         return response()->json([
             'status' => 'success',
-            'message' => 'Active media and blog banner loaded successfully',
-            'data' => [
-                'media' => $media,
-                'banner' => $banner,
-            ]
+            'message' => 'Dashboard media loaded successfully',
+            'data' => $media
         ]);
     } catch (Throwable $e) {
-        return $this->errorResponse($e, 'Failed to load media or banner');
+        return $this->errorResponse($e, 'Failed to load dashboard media');
     }
 }
 
-    public function dashboardMedia()
-    {
-        try {
-            $media = Media::latest()->get()->map(function ($item) {
-    $folder = $item->type === 'image' ? 'uploads/media/images' : 'uploads/media/videos';
-    return [
-        'id' => $item->id,
-        'type' => $item->type,
-        'file_path' => $item->file_path,
-        'file_url' => asset($folder . '/' . $item->file_path),
-        'video_url' => $item->video_url,
-        'alt_text' => $item->alt_text,
-        'is_active' => $item->is_active,
-        'created_at' => $item->created_at,
-        'updated_at' => $item->updated_at,
-    ];
-});
-
-        } catch (Throwable $e) {
-            return $this->errorResponse($e, 'Failed to load dashboard media');
-        }
-    }
     /**
  * @OA\Post(
  *     path="/api/media",

@@ -35,6 +35,8 @@ Route::prefix('website')->group(function () {
 
     Route::get('/images', [MediaController::class, 'publicImages']);
     Route::get('/videos', [MediaController::class, 'publicVideos']);
+    Route::get('/media', [MediaController::class, 'index']);
+
 
     Route::post('/contact', [ContactController::class, 'store']);
 
@@ -99,7 +101,7 @@ Route::prefix('partners')->group(function () {
 
     // Media
     Route::prefix('media')->group(function () {
-        Route::get('/', [MediaController::class, 'index']);
+    Route::get('/', [MediaController::class, 'dashboardMedia']); // ✅ API جديدة
         Route::post('/', [MediaController::class, 'store']);
         Route::post('/{id}/update', [MediaController::class, 'update']);
         Route::post('/{id}/toggle', [MediaController::class, 'toggleVisibility']);

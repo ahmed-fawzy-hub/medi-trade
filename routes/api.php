@@ -20,7 +20,6 @@ use App\Http\Controllers\VideoController;
 Route::get('/test', fn () => response()->json(['message' => 'API working']));
 
 // ✅ Auth
-Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 // ✅ Website Routes
@@ -33,7 +32,7 @@ Route::prefix('website')->group(function () {
     
     Route::get('/partners/category/{slug}/active', [PartnerController::class, 'getActiveByCategory']);
 
-    Route::get('/images', [MediaController::class, 'publicImages']);
+ Route::get('/images', [MediaController::class, 'publicImages']);
     Route::get('/videos', [MediaController::class, 'publicVideos']);
     Route::get('/media', [MediaController::class, 'index']);
 

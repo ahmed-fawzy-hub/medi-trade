@@ -421,44 +421,6 @@ public function dashboardMedia()
         return $this->fetchByType('video', 'All active videos fetched successfully');
     }
 
-    /**
- * @OA\Get(
- *     path="/api/media/public/images",
- *     summary="Get all public images",
- *     description="Retrieve all public media files of type image.",
- *     tags={"Media"},
- *     @OA\Response(
- *         response=200,
- *         description="List of public images",
- *         @OA\JsonContent(type="array", @OA\Items(type="object"))
- *     )
- * )
- */
-
-    public function publicImages()
-    {
-        return $this->fetchByType('image', 'Public images loaded');
-    }
-
-    /**
- * @OA\Get(
- *     path="/api/media/public/videos",
- *     summary="Get all public videos",
- *     description="Retrieve all public media files of type video.",
- *     tags={"Media"},
- *     @OA\Response(
- *         response=200,
- *         description="List of public videos",
- *         @OA\JsonContent(type="array", @OA\Items(type="object"))
- *     )
- * )
- */
-
-    public function publicVideos()
-    {
-        return $this->fetchByType('video', 'Public videos loaded');
-    }
-
     // =========================
     // Shared Helper Methods
     // =========================
